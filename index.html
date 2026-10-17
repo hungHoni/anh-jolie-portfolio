@@ -2856,6 +2856,8 @@
       });
     }
 
+    let closeResetTimer = null;
+
     function resetModalTransform() {
       projectModal.classList.remove("dragging");
       projectModal.style.transform = "";
@@ -2865,6 +2867,10 @@
     function openProjectModal(projectId) {
       const proj = PROJECTS_DB[projectId];
       if (!proj) return;
+      if (closeResetTimer) {
+        clearTimeout(closeResetTimer);
+        closeResetTimer = null;
+      }
       currentProjectId = projectId;
       currentProject = proj;
       currentSlideIdx = 0;
@@ -2915,11 +2921,32 @@
       playSound("folder");
     }
 
-    function closeProjectModal() {
-      resetModalTransform();
-      modalBackdrop.classList.remove("open");
-      unlockBodyScroll();
-      playSound("click");
+    function closeProjectModal(fromSwipe = false) {
+      if (closeResetTimer) {
+        clearTimeout(closeResetTimer);
+        closeResetTimer = null;
+      }
+      projectModal.classList.remove("dragging");
+      if (fromSwipe === true) {
+        projectModal.style.transform = "translateY(105%)";
+        modalBackdrop.classList.remove("open");
+        unlockBodyScroll();
+        playSound("click");
+        closeResetTimer = setTimeout(() => {
+          if (!modalBackdrop.classList.contains("open")) {
+            projectModal.classList.add("dragging");
+            projectModal.style.transform = "";
+            modalBackdrop.style.background = "";
+            void projectModal.offsetHeight;
+            projectModal.classList.remove("dragging");
+          }
+        }, 400);
+      } else {
+        resetModalTransform();
+        modalBackdrop.classList.remove("open");
+        unlockBodyScroll();
+        playSound("click");
+      }
     }
 
     // Native-feeling Swipe-Down / Pull-Down to Close Gesture (iOS Safari Safe + Header Grab at Any Scroll Position)
@@ -2996,11 +3023,7 @@
         const velocityY = currentDY / elapsed; // px per ms
 
         if (currentDY > 58 || (currentDY > 22 && velocityY > 0.32)) {
-          projectModal.classList.remove("dragging");
-          projectModal.style.transform = "translateY(105%)";
-          setTimeout(() => {
-            closeProjectModal();
-          }, 160);
+          closeProjectModal(true);
         } else if (currentDY > 0) {
           resetModalTransform();
         }
