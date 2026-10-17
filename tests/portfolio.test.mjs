@@ -16,10 +16,12 @@ describe("Jolie Anh Portfolio (index.html)", () => {
     expect(html).not.toContain("playSound(");
   });
 
-  test("uses the name Jolie Anh everywhere instead of Anh Jolie", () => {
+  test("uses the name Jolie Anh everywhere instead of Anh Jolie and translates tham khảo to English", () => {
     expect(html).toContain("Jolie Anh");
     expect(html).not.toContain("Anh Jolie");
     expect(html).not.toContain("ANH JOLIE");
+    expect(html.toLowerCase()).not.toContain("tham khảo");
+    expect(html).toContain("Visual References");
   });
 
   test("includes Jolie Anh profile photo in Hero Polaroid, About card, and Modal header", () => {
