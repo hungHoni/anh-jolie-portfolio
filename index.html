@@ -4,9 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
   <meta name="referrer" content="no-referrer" />
-  <title>Anh Jolie — Retoucher &amp; Graphic Designer</title>
-  <meta name="description" content="Portfolio of Anh Jolie — Retoucher & Graphic Designer in Ho Chi Minh City. High-end beauty retouching, resort lookbooks, editorial stories, and curated visual moodboards." />
-  <meta property="og:title" content="Anh Jolie — Retoucher &amp; Graphic Designer" />
+  <title>Jolie Anh — Retoucher &amp; Graphic Designer</title>
+  <meta name="description" content="Portfolio of Jolie Anh — Retoucher & Graphic Designer in Ho Chi Minh City. High-end beauty retouching, resort lookbooks, editorial stories, and curated visual moodboards." />
+  <meta property="og:title" content="Jolie Anh — Retoucher &amp; Graphic Designer" />
   <meta property="og:description" content="A thoughtful process of crafting beauty retouching, resort lookbooks, editorial stories, and visual identities that spark delights." />
   <meta property="og:image" content="https://mir-s3-cdn-cf.behance.net/b1651c69d4bcf83d40b5f0b8733e53f3/c65cf236-919b-415d-bf5d-6e8229b2af30_acc_1200x630.png?h=d01a60e6569aecd27ad636b7a60bcfe1" />
   <meta property="og:type" content="website" />
@@ -46,8 +46,10 @@
       scroll-behavior: smooth;
     }
 
+    html.modal-open,
     body.modal-open {
       overflow: hidden;
+      overscroll-behavior: none;
     }
 
     /* ===================== TOP HERO CANVAS (DESKTOP + MOBILE) ===================== */
@@ -1083,9 +1085,9 @@
     .project-modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(28, 25, 22, 0.56);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: rgba(24, 21, 18, 0.54);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       z-index: 1000;
       display: flex;
       align-items: center;
@@ -1095,7 +1097,8 @@
       pointer-events: none;
       overscroll-behavior: none;
       touch-action: none;
-      transition: opacity 0.3s ease;
+      will-change: opacity;
+      transition: opacity 0.36s cubic-bezier(0.32, 0.72, 0, 1);
     }
 
     .project-modal-backdrop.open {
@@ -1114,11 +1117,13 @@
       box-shadow: 0 36px 90px rgba(20, 18, 15, 0.32), 0 2px 10px rgba(0,0,0,0.06);
       overflow: hidden;
       overscroll-behavior: none;
-      transform: translateY(24px) scale(0.97);
-      transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
+      transform: translate3d(0, 32px, 0) scale(0.96);
+      transition: transform 0.42s cubic-bezier(0.32, 0.72, 0, 1);
       display: flex;
       flex-direction: column;
       will-change: transform;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
     }
 
     .project-modal.dragging {
@@ -1127,7 +1132,7 @@
     }
 
     .project-modal-backdrop.open .project-modal {
-      transform: translateY(0) scale(1);
+      transform: translate3d(0, 0, 0) scale(1);
     }
 
     /* macOS + Editorial Window Top Chrome with Pull-Down Grabber */
@@ -1721,7 +1726,7 @@
         display: none;
       }
 
-      /* Open Muji Grid Notebook centered behind Anh Jolie signature */
+      /* Open Muji Grid Notebook centered behind Jolie Anh signature */
       .item-notebook,
       .hero-stage[data-mode="clean"] .item-notebook,
       .hero-stage[data-mode="notebook"] .item-notebook {
@@ -2067,15 +2072,25 @@
         margin: 0 auto;
       }
 
-      /* Mobile Bottom-Sheet Editorial Popup Modal */
+      /* Mobile Bottom-Sheet Editorial Popup Modal (iPhone Native Sheet Physics) */
       .project-modal-backdrop {
         padding: 0;
         align-items: flex-end;
+        background: rgba(18, 16, 14, 0.52);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
       }
 
       .project-modal {
-        max-height: 93vh;
-        border-radius: 26px 26px 0 0;
+        max-height: 92vh;
+        max-height: 92dvh;
+        border-radius: 28px 28px 0 0;
+        transform: translate3d(0, 102%, 0);
+        transition: transform 0.42s cubic-bezier(0.32, 0.72, 0, 1);
+      }
+
+      .project-modal-backdrop.open .project-modal {
+        transform: translate3d(0, 0, 0);
       }
 
       .modal-topbar {
@@ -2138,12 +2153,12 @@
 </head>
 <body>
 
-  <!-- ===================== HERO DESK STAGE (1:1 JACKIE HU REPLICA FOR ANH JOLIE) ===================== -->
+  <!-- ===================== HERO DESK STAGE (1:1 JACKIE HU REPLICA FOR JOLIE ANH) ===================== -->
   <section class="hero-stage" id="heroStage" data-mode="coffee">
 
     <!-- Center Signature & Bio -->
     <div class="hero-center-text">
-      <h1 class="signature-title">Anh Jolie</h1>
+      <h1 class="signature-title">Jolie Anh</h1>
       <div class="subtitle-role">Retoucher &amp; Graphic Design</div>
       <div class="subtitle-pos">Visual &amp; Craft</div>
       <p class="subtitle-desc">
@@ -2152,11 +2167,11 @@
     </div>
 
     <!-- Left Desk Collage Items -->
-    <div class="desk-item item-noteclip" data-sound="paper" title="Click for paper sound">
+    <div class="desk-item item-noteclip" title="Studio note clip">
       <img src="https://framerusercontent.com/images/Ib2MgBDUnLnhAsZEGDsaXTRCyEc.png?scale-down-to=1024&width=736&height=1030" alt="Note clip" />
     </div>
 
-    <div class="desk-item item-notebook" data-sound="notebook" title="Click to turn page">
+    <div class="desk-item item-notebook" title="Muji grid notebook">
       <img src="https://framerusercontent.com/images/EXDOfJMplEjncYGaW1AXyHUrGo.png?scale-down-to=1024&width=1913&height=1538" alt="Muji grid notebook" />
     </div>
 
@@ -2164,50 +2179,50 @@
       <img src="https://framerusercontent.com/images/AgBD7j2uv82zRz8yWkU2JJqXUU.png?scale-down-to=512&width=736&height=735" alt="Coffee ring stain" />
     </div>
 
-    <div class="desk-item item-lamp" data-sound="lamp" title="Click to toggle desk lamp">
+    <div class="desk-item item-lamp" title="Desk lamp">
       <img src="https://framerusercontent.com/images/jdLgBfSLwKTClxqYuahwosnQ0ao.png?scale-down-to=512&width=675&height=900" alt="Flowerpot lamp" />
     </div>
 
-    <div class="desk-item item-doliprane" data-sound="pills" title="Click for sound">
+    <div class="desk-item item-doliprane" title="Doliprane">
       <img src="https://framerusercontent.com/images/2q82sqseGi8szDiOuBWqQaBz5k.png?scale-down-to=512&width=898&height=892" alt="Doliprane" />
     </div>
 
-    <div class="desk-item item-dream" data-sound="paper" title="Dreams clipping">
+    <div class="desk-item item-dream" title="Dreams clipping">
       <img src="https://framerusercontent.com/images/UYw9YXInfHuvyVQzhOZZzoZBPh4.png?scale-down-to=512&width=736&height=575" alt="Dreams dictionary clipping" />
     </div>
 
-    <div class="desk-item item-pen" data-sound="pen" title="Click for pen scribble sound">
+    <div class="desk-item item-pen" title="Muji pen">
       <img src="https://framerusercontent.com/images/tQZK8bAxzmm6UcxN8lrkuLrsPTs.png?scale-down-to=1024&width=1280&height=1280" alt="Muji pen" />
     </div>
 
-    <div class="desk-item item-lighter" data-sound="lighter" title="Click to flick lighter">
+    <div class="desk-item item-lighter" title="Lighter">
       <img src="https://framerusercontent.com/images/rksKjHdY89q3Pqx7B0oMmuDZYAo.png?scale-down-to=512&width=453&height=716" alt="Lighter" />
     </div>
 
-    <div class="desk-item item-film" data-sound="camera" title="Click for analog camera shutter">
+    <div class="desk-item item-film" title="Kodak Portra 400 Film">
       <img src="https://framerusercontent.com/images/dReV0XQhJYgPVKg5SFc8B4qk.png?width=427&height=418" alt="Kodak Portra 400 Film" />
     </div>
 
-    <div class="desk-item item-handcream" data-sound="handcream" title="Click for water drop sound">
+    <div class="desk-item item-handcream" title="Blue Bottle hand cream">
       <img src="https://framerusercontent.com/images/r0cKKLDepuyC861bflopOCb3QvM.png?scale-down-to=512&width=418&height=569" alt="Blue Bottle hand cream" />
     </div>
 
     <!-- Right Desk Collage Items -->
-    <div class="desk-item item-mouse" data-sound="click" title="Retro pixel cursor">
+    <div class="desk-item item-mouse" title="Retro pixel cursor">
       <img src="https://framerusercontent.com/images/BMk9tbBUQoj1TbGSpyuzVtpEI.png?width=354&height=353" alt="Pixel cursor" />
     </div>
 
-    <!-- Tactile Polaroid Profile Portrait of Anh Jolie -->
-    <div class="desk-item item-polaroid" id="heroPolaroid" data-sound="camera" title="Anh Jolie · Click to view Artist Profile">
+    <!-- Tactile Polaroid Profile Portrait of Jolie Anh -->
+    <div class="desk-item item-polaroid" id="heroPolaroid" title="Jolie Anh · Click to view Artist Profile">
       <div class="polaroid-tape"></div>
       <div class="polaroid-photo-wrap">
-        <img src="https://pps.services.adobe.com/api/profile/750D1D81658C55D60A495EF0@AdobeID/image/1b6f3408-648a-427c-b1b6-2637dbc64928/276" alt="Anh Jolie Portrait" />
+        <img src="https://pps.services.adobe.com/api/profile/750D1D81658C55D60A495EF0@AdobeID/image/1b6f3408-648a-427c-b1b6-2637dbc64928/276" alt="Jolie Anh Portrait" />
       </div>
-      <div class="polaroid-caption">Anh Jolie 📸</div>
+      <div class="polaroid-caption">Jolie Anh 📸</div>
     </div>
 
-    <!-- Spinning Vinyl Music Player -->
-    <div class="desk-item item-music-card" id="musicCard" title="Tap vinyl to play/pause Jazz et thé vert">
+    <!-- Spinning Vinyl Card -->
+    <div class="desk-item item-music-card" id="musicCard" title="Tap vinyl to spin">
       <div class="vinyl-wrap" id="vinylToggle">
         <img class="vinyl-disc" src="https://framerusercontent.com/images/pIJQNvKwXzQWb9Be5qUhoITihY.png?scale-down-to=1024&width=1836&height=1836" alt="Vinyl record" />
         <img class="vinyl-center" src="https://framerusercontent.com/images/wOeVsLZQBng4oWuL9A4Yl4g1NB0.png?scale-down-to=512&width=640&height=640" alt="Album art" />
@@ -2230,13 +2245,13 @@
     </div>
 
     <!-- AirDrop Notification Card -->
-    <div class="desk-item item-airdrop" id="airdropCard" data-sound="airdrop">
+    <div class="desk-item item-airdrop" id="airdropCard">
       <div class="airdrop-header">
         <div class="airdrop-title">AirDrop</div>
-        <div class="airdrop-sub" id="airdropSub">Anh Jolie would like to share a photo</div>
+        <div class="airdrop-sub" id="airdropSub">Jolie Anh would like to share a photo</div>
       </div>
       <div class="airdrop-photo" id="airdropPhotoClick" title="Tap to view full photo popup">
-        <img id="airdropImg" src="https://mir-s3-cdn-cf.behance.net/projects/max_808/eb3c82251380249.Y3JvcCw5MDcsNzA5LDQzMywyNg.jpg" alt="Anh Jolie Retouch Share" />
+        <img id="airdropImg" src="https://mir-s3-cdn-cf.behance.net/projects/max_808/eb3c82251380249.Y3JvcCw5MDcsNzA5LDQzMywyNg.jpg" alt="Jolie Anh Retouch Share" />
       </div>
       <div class="airdrop-actions">
         <button class="airdrop-btn" id="airdropDecline" type="button">Decline</button>
@@ -2245,7 +2260,7 @@
     </div>
 
     <!-- Classic Mac Paint Tool Palette -->
-    <div class="desk-item item-sidebar" data-sound="systems" title="Click for retro system sound">
+    <div class="desk-item item-sidebar" title="Mac Paint Palette">
       <img src="https://framerusercontent.com/images/w5rRTcZlyNjchgev3qGcQcEdA4.png?scale-down-to=512&width=282&height=1013" alt="Mac Paint Palette" />
     </div>
 
@@ -2297,7 +2312,7 @@
           <img class="project-icon" src="https://mir-s3-cdn-cf.behance.net/projects/404/3b5515251380835.Y3JvcCw1NTA0LDQzMDUsMCwxOTIw.jpg" alt="Le Thanh Hoa Resort 2026" />
           <div class="project-mobile-stage">
             <span class="mobile-stage-badge">01 · LOOKBOOK 2026</span>
-            <span class="mobile-stage-cursor">Anh Jolie</span>
+            <span class="mobile-stage-cursor">Jolie Anh</span>
             <div class="mobile-stage-main">
               <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/3b5515251380835.Y3JvcCw1NTA0LDQzMDUsMCwxOTIw.jpg" alt="Le Thanh Hoa Resort 2026 Main" />
             </div>
@@ -2391,7 +2406,7 @@
         <div class="floating-cursor cursor-anh">
           <div class="cursor-pill">
             <span class="cursor-tip"></span>
-            Anh Jolie
+            Jolie Anh
           </div>
         </div>
 
@@ -2506,7 +2521,7 @@
     </div>
   </section>
 
-  <!-- ===================== ABOUT ⌘ (With Anh Jolie Polaroid Profile Portrait) ===================== -->
+  <!-- ===================== ABOUT ⌘ (With Jolie Anh Polaroid Profile Portrait) ===================== -->
   <section class="section-wrap about-section" id="aboutSection">
     <h2 class="section-heading">About ⌘</h2>
 
@@ -2514,8 +2529,8 @@
       <!-- Left: Tactile Taped Polaroid Portrait Card -->
       <div class="about-polaroid-card">
         <div class="about-polaroid-tape"></div>
-        <img class="about-polaroid-img" src="https://pps.services.adobe.com/api/profile/750D1D81658C55D60A495EF0@AdobeID/image/1b6f3408-648a-427c-b1b6-2637dbc64928/276" alt="Anh Jolie Portrait with Fujifilm Camera" />
-        <div class="about-polaroid-sig">Anh Jolie</div>
+        <img class="about-polaroid-img" src="https://pps.services.adobe.com/api/profile/750D1D81658C55D60A495EF0@AdobeID/image/1b6f3408-648a-427c-b1b6-2637dbc64928/276" alt="Jolie Anh Portrait with Fujifilm Camera" />
+        <div class="about-polaroid-sig">Jolie Anh</div>
         <div class="about-polaroid-sub">Saigon, VN · Fujifilm X-T4</div>
         <div class="about-status-pill">
           <span class="status-dot"></span>
@@ -2526,7 +2541,7 @@
       <!-- Right: Editorial Bio, Specialty Pills & Archive Triggers -->
       <div class="about-bio-col">
         <p class="about-text">
-          I'm <strong>Anh Jolie</strong> — a Retoucher and Graphic Designer who loves crafting luminous beauty imagery, fashion lookbooks, and expressive visual identities. Currently based in Ho Chi Minh City, Vietnam.
+          I'm <strong>Jolie Anh</strong> — a Retoucher and Graphic Designer who loves crafting luminous beauty imagery, fashion lookbooks, and expressive visual identities. Currently based in Ho Chi Minh City, Vietnam.
         </p>
         <p class="about-text">
           While I value the tactile and emotional details of every frame, my work centers on non-destructive skin retouching, editorial color grading (including campaigns starring Chipu, Model Karina, Le Thanh Hoa Resort 2026, and Paula's Choice Vietnam), and cohesive brand design systems.
@@ -2567,13 +2582,13 @@
               <span class="mac-dot min"></span>
               <span class="mac-dot max"></span>
             </div>
-            <span class="modal-file-pill" id="modalFilePill">~/Anh_Jolie_Studio/Resort_2026.psd @ 100%</span>
+            <span class="modal-file-pill" id="modalFilePill">~/Jolie_Anh_Studio/Resort_2026.psd @ 100%</span>
           </div>
 
           <div class="modal-window-right">
             <div class="modal-artist-chip">
-              <img src="https://pps.services.adobe.com/api/profile/750D1D81658C55D60A495EF0@AdobeID/image/1b6f3408-648a-427c-b1b6-2637dbc64928/276" alt="Anh Jolie" />
-              <span>Anh Jolie</span>
+              <img src="https://pps.services.adobe.com/api/profile/750D1D81658C55D60A495EF0@AdobeID/image/1b6f3408-648a-427c-b1b6-2637dbc64928/276" alt="Jolie Anh" />
+              <span>Jolie Anh</span>
             </div>
             <button class="modal-close-btn" id="modalCloseBtn" type="button" aria-label="Close popup">✕ Close</button>
           </div>
@@ -2633,45 +2648,17 @@
     </div>
   </div>
 
-  <!-- ===================== REAL JACKIE HU SOUND EFFECTS + POPUP ENGINE ===================== -->
+  <!-- ===================== JOLIE ANH INTERACTIVE STUDIO & POPUP ENGINE ===================== -->
   <script>
-    const SOUNDS = {
-      airdrop: "https://raw.githubusercontent.com/wenqian-hu/sound-effects/main/AirDrop.wav",
-      camera: "https://raw.githubusercontent.com/wenqian-hu/sound-effects/main/analog-camera.mp3",
-      click: "https://raw.githubusercontent.com/wenqian-hu/sound-effects/main/mouse-click.mp3",
-      folder: "https://raw.githubusercontent.com/wenqian-hu/sound-effects/main/folder-2.mp3",
-      handcream: "https://raw.githubusercontent.com/wenqian-hu/sound-effects/main/water-drop.mp3",
-      lamp: "https://raw.githubusercontent.com/wenqian-hu/sound-effects/main/desk-lamp.mp3",
-      lighter: "https://raw.githubusercontent.com/wenqian-hu/sound-effects/main/lighter.wav",
-      music: "https://raw.githubusercontent.com/wenqian-hu/sound-effects/main/musicplayer.m4a",
-      notebook: "https://raw.githubusercontent.com/wenqian-hu/sound-effects/main/turnpage.mp3",
-      systems: "https://raw.githubusercontent.com/wenqian-hu/sound-effects/main/windows-xp.mp3",
-      paper: "https://raw.githubusercontent.com/wenqian-hu/sound-effects/main/paper-ripping.mp3",
-      pen: "https://raw.githubusercontent.com/wenqian-hu/sound-effects/main/writing-scribble-on-paper.wav",
-      pills: "https://raw.githubusercontent.com/wenqian-hu/sound-effects/main/pill.mp3"
-    };
-
-    const audioCache = {};
-    function playSound(key) {
-      if (!SOUNDS[key]) return;
-      try {
-        if (!audioCache[key]) {
-          audioCache[key] = new Audio(SOUNDS[key]);
-        }
-        audioCache[key].currentTime = 0;
-        audioCache[key].play().catch(() => {});
-      } catch (e) {}
-    }
-
-    // Complete In-Page Showcase Database (All 12 Projects + 5 Moodboards from Anh Jolie's Behance)
+    // Complete In-Page Showcase Database (All 12 Projects + 5 Moodboards from Jolie Anh's Behance)
     const PROJECTS_DB = {
       "resort-2026": {
         title: "LE THANH HOA RESORT 2026",
-        file: "~/Anh_Jolie_Studio/LeThanhHoa_Resort2026.psd @ 100%",
+        file: "~/Jolie_Anh_Studio/LeThanhHoa_Resort2026.psd @ 100%",
         note: "sunlit resort movement & luminous skin micro-contrast ✨",
         category: "Fashion Lookbook · High-End Retouching",
         story: "Full campaign retouching and editorial color grading for Le Thanh Hoa Resort 2026, paired with Project Như Nguyệt and Lookbook for DATT. Focused on preserving natural fabric movement, warm sunlit highlights, and refined skin micro-contrast across full-length lookbook spreads.",
-        credits: "<strong>Artist:</strong> Anh Jolie<br><strong>Role:</strong> Lead Retoucher<br><strong>Location:</strong> Ho Chi Minh City<br><strong>Series:</strong> Resort 2026 · Như Nguyệt · DATT",
+        credits: "<strong>Artist:</strong> Jolie Anh<br><strong>Role:</strong> Lead Retoucher<br><strong>Location:</strong> Ho Chi Minh City<br><strong>Series:</strong> Resort 2026 · Như Nguyệt · DATT",
         images: [
           "https://mir-s3-cdn-cf.behance.net/projects/max_808/3b5515251380835.Y3JvcCw1NTA0LDQzMDUsMCwxOTIw.jpg",
           "https://mir-s3-cdn-cf.behance.net/projects/max_808/b65f61251378263.Y3JvcCwzMTMxLDI0NDksODgzLDExNzg.jpg",
@@ -2681,11 +2668,11 @@
       },
       "beauty-karina-chipu": {
         title: "Beauty Retouch (Starring Chipu & Model Karina)",
-        file: "~/Anh_Jolie_Studio/Beauty_Chipu_Karina_16bit.tif",
+        file: "~/Jolie_Anh_Studio/Beauty_Chipu_Karina_16bit.tif",
         note: "zero-blur frequency separation & natural pore luminosity 🌿",
         category: "Macro Beauty · Skin & Specular Retouching",
         story: "Close-up beauty retouching series starring Chipu and Model Karina. Uses non-destructive frequency separation and dodge-and-burn contouring to keep every pore, eyelash, and catchlight crisp while achieving a luminous editorial finish.",
-        credits: "<strong>Artist:</strong> Anh Jolie<br><strong>Talent:</strong> Chipu &amp; Model Karina<br><strong>Focus:</strong> Frequency Separation · Color Tonal Balance",
+        credits: "<strong>Artist:</strong> Jolie Anh<br><strong>Talent:</strong> Chipu &amp; Model Karina<br><strong>Focus:</strong> Frequency Separation · Color Tonal Balance",
         images: [
           "https://mir-s3-cdn-cf.behance.net/projects/max_808/eb3c82251380249.Y3JvcCw5MDcsNzA5LDQzMywyNg.jpg",
           "https://mir-s3-cdn-cf.behance.net/projects/max_808/1bc210242325057.Y3JvcCwzMTUxLDI0NjQsMCw4MTg.jpg",
@@ -2695,11 +2682,11 @@
       },
       "paulas-choice": {
         title: "Paula's Choice Vietnam & Brand Campaigns",
-        file: "~/Anh_Jolie_Studio/PaulasChoice_VN_Campaign.psd",
+        file: "~/Jolie_Anh_Studio/PaulasChoice_VN_Campaign.psd",
         note: "clean specular bottle reflections & clinical skincare glow 💧",
         category: "Commercial Product · Graphic Design",
         story: "Commercial skincare key visuals for Paula's Choice Vietnam alongside luxury lifestyle product campaigns for Layla Candles, Soluna Candles, and Lemoji Wine. Designed for clinical clarity, clean bottle reflections, and cohesive social media storytelling.",
-        credits: "<strong>Artist:</strong> Anh Jolie<br><strong>Brands:</strong> Paula's Choice VN · Layla · Soluna · Lemoji<br><strong>Deliverables:</strong> Key Visuals &amp; Social Systems",
+        credits: "<strong>Artist:</strong> Jolie Anh<br><strong>Brands:</strong> Paula's Choice VN · Layla · Soluna · Lemoji<br><strong>Deliverables:</strong> Key Visuals &amp; Social Systems",
         images: [
           "https://mir-s3-cdn-cf.behance.net/projects/max_808/e50c9c251379691.Y3JvcCwxMDkzLDg1NSw4NTUsMA.jpg",
           "https://mir-s3-cdn-cf.behance.net/projects/max_808/5e6978215864055.Y3JvcCwyMTE0LDE2NTQsMjYxLDA.jpg",
@@ -2709,11 +2696,11 @@
       },
       "editorial-bloom": {
         title: "Editorial: Bloom, Lookbook Glamdoll & Dark Reflection",
-        file: "~/Anh_Jolie_Studio/Editorial_Bloom_Glamdoll.psd",
+        file: "~/Jolie_Anh_Studio/Editorial_Bloom_Glamdoll.psd",
         note: "sculptural shadows, chrome highlights & fine-art mood 🎞️",
         category: "Editorial Portrait · Fashion Lookbook",
         story: "Conceptual portrait and fashion lookbook retouching across Editorial: Bloom, Lookbook: Glamdoll, The Dark Reflection, and Poster Hongkong. Explores dramatic studio lighting, metallic reflections, and sculptural color palettes.",
-        credits: "<strong>Artist:</strong> Anh Jolie<br><strong>Series:</strong> Bloom · Glamdoll · Dark Reflection<br><strong>Discipline:</strong> Editorial Retouch &amp; Poster Design",
+        credits: "<strong>Artist:</strong> Jolie Anh<br><strong>Series:</strong> Bloom · Glamdoll · Dark Reflection<br><strong>Discipline:</strong> Editorial Retouch &amp; Poster Design",
         images: [
           "https://mir-s3-cdn-cf.behance.net/projects/max_808/631aa1251378989.Y3JvcCw4MzI0LDY1MTAsMCwyMjA0.jpg",
           "https://mir-s3-cdn-cf.behance.net/projects/max_808/8d1d26251377661.Y3JvcCw1NTA0LDQzMDUsMCwxNTI1.jpg",
@@ -2723,11 +2710,11 @@
       },
       "mb-tham-khao": {
         title: "Moodboard: tham khảo",
-        file: "~/Anh_Jolie_Studio/Moodboards/tham_khao.board",
+        file: "~/Jolie_Anh_Studio/Moodboards/tham_khao.board",
         note: "curated lighting & macro skin references 📌",
         category: "Curated Moodboard · Beauty & Lighting",
-        story: "Anh Jolie's visual reference board for macro skin texture, warm editorial lighting, and sculptural portrait composition.",
-        credits: "<strong>Curator:</strong> Anh Jolie<br><strong>Collection:</strong> tham khảo (Behance Moodboard)<br><strong>Themes:</strong> Luminous Skin · Editorial Lighting",
+        story: "Jolie Anh's visual reference board for macro skin texture, warm editorial lighting, and sculptural portrait composition.",
+        credits: "<strong>Curator:</strong> Jolie Anh<br><strong>Collection:</strong> tham khảo (Behance Moodboard)<br><strong>Themes:</strong> Luminous Skin · Editorial Lighting",
         images: [
           "https://mir-s3-cdn-cf.behance.net/projects/max_808/1bc210242325057.Y3JvcCwzMTUxLDI0NjQsMCw4MTg.jpg",
           "https://mir-s3-cdn-cf.behance.net/projects/max_808/8ab153245744275.Y3JvcCwzMjQwLDI1MzQsMCwxMzA3.jpg",
@@ -2736,11 +2723,11 @@
       },
       "mb-post-social": {
         title: "Moodboard: post social",
-        file: "~/Anh_Jolie_Studio/Moodboards/post_social.board",
+        file: "~/Jolie_Anh_Studio/Moodboards/post_social.board",
         note: "social storytelling grids & editorial type 📌",
         category: "Curated Moodboard · Social Media & Campaigns",
         story: "Curated social media direction featuring 'KIND OF LOVE' romantic editorial layouts, Ultragaz brand grids, and Millennium campaign typography.",
-        credits: "<strong>Curator:</strong> Anh Jolie<br><strong>Collection:</strong> post social<br><strong>Highlights:</strong> 'KIND OF LOVE' · Ultragaz · Millennium",
+        credits: "<strong>Curator:</strong> Jolie Anh<br><strong>Collection:</strong> post social<br><strong>Highlights:</strong> 'KIND OF LOVE' · Ultragaz · Millennium",
         images: [
           "https://mir-s3-cdn-cf.behance.net/projects/max_808/cad4ff238627251.Y3JvcCw1NDY0LDQyNzMsMCw1NTQ.jpg",
           "https://mir-s3-cdn-cf.behance.net/projects/max_808/f5eb0a196255797.Y3JvcCwxMzk5LDEwOTUsMCww.png",
@@ -2749,11 +2736,11 @@
       },
       "mb-design-brand": {
         title: "Moodboard: design brand",
-        file: "~/Anh_Jolie_Studio/Moodboards/design_brand.board",
+        file: "~/Jolie_Anh_Studio/Moodboards/design_brand.board",
         note: "Vietnamese craft print & tactile packaging systems 📌",
         category: "Curated Moodboard · Brand Identity & Print",
         story: "Tactile print and brand identity curation including Brochure Design | Thổ cẩm Việt (Vietnamese brocade craft), Dốc Mơ Farm, and Logofolio Vol. 03.",
-        credits: "<strong>Curator:</strong> Anh Jolie<br><strong>Collection:</strong> design brand<br><strong>Highlights:</strong> Thổ cẩm Việt · Dốc Mơ Farm · Logofolio",
+        credits: "<strong>Curator:</strong> Jolie Anh<br><strong>Collection:</strong> design brand<br><strong>Highlights:</strong> Thổ cẩm Việt · Dốc Mơ Farm · Logofolio",
         images: [
           "https://mir-s3-cdn-cf.behance.net/project_modules/disp/10176a162341439.63d3e4496464b.jpg",
           "https://mir-s3-cdn-cf.behance.net/projects/max_808/6654e0176119323.Y3JvcCwzMzY3LDI2MzMsMCww.png",
@@ -2762,11 +2749,11 @@
       },
       "mb-portfolio-typo": {
         title: "Moodboards: portfolio & typo",
-        file: "~/Anh_Jolie_Studio/Moodboards/portfolio_typo.board",
+        file: "~/Jolie_Anh_Studio/Moodboards/portfolio_typo.board",
         note: "Osklen Verão 25 minimalism & expressive poster type 📌",
         category: "Curated Moodboards · Editorial Layout & Typography",
         story: "Editorial layout and expressive poster typography curation combining Osklen Verão 25 tropical minimalism, Graphic Designer Portfolio 2024 grids, and Verse of the Day poster series.",
-        credits: "<strong>Curator:</strong> Anh Jolie<br><strong>Collections:</strong> portfolio &amp; typo<br><strong>Highlights:</strong> Osklen Verão 25 · Verse of the Day",
+        credits: "<strong>Curator:</strong> Jolie Anh<br><strong>Collections:</strong> portfolio &amp; typo<br><strong>Highlights:</strong> Osklen Verão 25 · Verse of the Day",
         images: [
           "https://mir-s3-cdn-cf.behance.net/projects/max_808/897d13217922229.Y3JvcCwxMzgwLDEwODAsMjcwLDA.png",
           "https://mir-s3-cdn-cf.behance.net/projects/max_808/2b8114192088173.Y3JvcCw0Nzk5LDM3NTQsMCww.jpg",
@@ -2777,7 +2764,7 @@
 
     const PROJECT_KEYS = Object.keys(PROJECTS_DB);
 
-    // 1. Editorial Lookbook Popup Modal Controller
+    // 1. Editorial Lookbook Popup Modal Controller (120fps iPhone Native Sheet Physics)
     const modalBackdrop = document.getElementById("projectModalBackdrop");
     const projectModal = document.getElementById("projectModal");
     const modalTopbar = document.getElementById("modalTopbar");
@@ -2803,39 +2790,6 @@
     let currentProjectId = null;
     let currentProject = null;
     let currentSlideIdx = 0;
-    let lockedScrollY = 0;
-    let isBodyScrollLocked = false;
-
-    // iOS Safari & Mobile Background Scroll Lock (prevents the behind screen from ever scrolling)
-    function lockBodyScroll() {
-      if (isBodyScrollLocked) return;
-      lockedScrollY = window.scrollY || window.pageYOffset || 0;
-      document.body.style.position = "fixed";
-      document.body.style.top = `-${lockedScrollY}px`;
-      document.body.style.left = "0";
-      document.body.style.right = "0";
-      document.body.style.width = "100%";
-      document.body.classList.add("modal-open");
-      isBodyScrollLocked = true;
-    }
-
-    function unlockBodyScroll() {
-      if (!isBodyScrollLocked) return;
-      const htmlEl = document.documentElement;
-      const prevBehavior = htmlEl.style.scrollBehavior;
-      htmlEl.style.scrollBehavior = "auto";
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.left = "";
-      document.body.style.right = "";
-      document.body.style.width = "";
-      document.body.classList.remove("modal-open");
-      isBodyScrollLocked = false;
-      window.scrollTo(0, lockedScrollY);
-      requestAnimationFrame(() => {
-        htmlEl.style.scrollBehavior = prevBehavior;
-      });
-    }
 
     function pad2(n) {
       return n < 10 ? "0" + n : String(n);
@@ -2856,8 +2810,6 @@
       });
     }
 
-    let closeResetTimer = null;
-
     function resetModalTransform() {
       projectModal.classList.remove("dragging");
       projectModal.style.transform = "";
@@ -2867,17 +2819,13 @@
     function openProjectModal(projectId) {
       const proj = PROJECTS_DB[projectId];
       if (!proj) return;
-      if (closeResetTimer) {
-        clearTimeout(closeResetTimer);
-        closeResetTimer = null;
-      }
       currentProjectId = projectId;
       currentProject = proj;
       currentSlideIdx = 0;
 
       modalTitle.textContent = proj.title;
       modalCategory.textContent = proj.category;
-      modalFilePill.textContent = proj.file || "~/Anh_Jolie_Studio/Lookbook.psd";
+      modalFilePill.textContent = proj.file || "~/Jolie_Anh_Studio/Lookbook.psd";
       modalHandnote.textContent = proj.note || "crafted with natural skin texture ✨";
       modalStory.innerHTML = proj.story;
       modalCredits.innerHTML = proj.credits;
@@ -2895,7 +2843,6 @@
           </div>
         `;
         card.addEventListener("click", () => {
-          playSound("click");
           renderModalSlide(i);
         });
         modalThumbs.appendChild(card);
@@ -2908,7 +2855,6 @@
       nextProjectThumb.src = nextProj.images[0];
       nextProjectLabel.textContent = "Up Next: " + nextProj.title.slice(0, 26) + (nextProj.title.length > 26 ? "…" : "") + " →";
       nextProjectBtn.onclick = () => {
-        playSound("notebook");
         openProjectModal(nextKey);
         modalBody.scrollTo({ top: 0, behavior: "smooth" });
       };
@@ -2916,40 +2862,21 @@
       resetModalTransform();
       modalBody.scrollTop = 0;
       renderModalSlide(0);
-      lockBodyScroll();
-      modalBackdrop.classList.add("open");
-      playSound("folder");
+      document.documentElement.classList.add("modal-open");
+      document.body.classList.add("modal-open");
+      requestAnimationFrame(() => {
+        modalBackdrop.classList.add("open");
+      });
     }
 
-    function closeProjectModal(fromSwipe = false) {
-      if (closeResetTimer) {
-        clearTimeout(closeResetTimer);
-        closeResetTimer = null;
-      }
-      projectModal.classList.remove("dragging");
-      if (fromSwipe === true) {
-        projectModal.style.transform = "translateY(105%)";
-        modalBackdrop.classList.remove("open");
-        unlockBodyScroll();
-        playSound("click");
-        closeResetTimer = setTimeout(() => {
-          if (!modalBackdrop.classList.contains("open")) {
-            projectModal.classList.add("dragging");
-            projectModal.style.transform = "";
-            modalBackdrop.style.background = "";
-            void projectModal.offsetHeight;
-            projectModal.classList.remove("dragging");
-          }
-        }, 400);
-      } else {
-        resetModalTransform();
-        modalBackdrop.classList.remove("open");
-        unlockBodyScroll();
-        playSound("click");
-      }
+    function closeProjectModal() {
+      resetModalTransform();
+      modalBackdrop.classList.remove("open");
+      document.documentElement.classList.remove("modal-open");
+      document.body.classList.remove("modal-open");
     }
 
-    // Native-feeling Swipe-Down / Pull-Down to Close Gesture (iOS Safari Safe + Header Grab at Any Scroll Position)
+    // Native iPhone UIKit Bottom-Sheet Pull-Down Gesture + Zero-Reflow iOS Scroll-Chaining Lock
     function setupModalPullDownToClose() {
       let startY = 0;
       let startX = 0;
@@ -2967,7 +2894,7 @@
         lastTouchY = clientY;
         startedOnHeader = Boolean(target.closest("#modalTopbar") || target.closest("#modalDragHandle"));
         // Allow pull-down from the topbar at ANY scroll position, OR from modalBody when scrolled to the top
-        if (!startedOnHeader && modalBody.scrollTop > 6) {
+        if (!startedOnHeader && modalBody.scrollTop > 4) {
           isPullingSheet = false;
           return;
         }
@@ -2980,8 +2907,22 @@
       }
 
       function onMove(clientY, clientX, event) {
+        const fingerDelta = clientY - lastTouchY;
+
+        // Prevent iOS Safari scroll-chaining to the background page when at the bottom of modalBody and scrolling further down
+        if (
+          touchActive &&
+          !startedOnHeader &&
+          fingerDelta < 0 &&
+          modalBody.scrollTop + modalBody.clientHeight >= modalBody.scrollHeight - 2
+        ) {
+          if (event && event.cancelable) event.preventDefault();
+          lastTouchY = clientY;
+          return;
+        }
+
         // Seamless handoff: if touch started while scrolled down, and user scrolled back to top (scrollTop <= 0) while still pulling down
-        if (!isPullingSheet && touchActive && modalBody.scrollTop <= 0 && clientY > lastTouchY) {
+        if (!isPullingSheet && touchActive && modalBody.scrollTop <= 0 && fingerDelta > 0) {
           startY = clientY;
           startX = clientX;
           currentDY = 0;
@@ -2997,7 +2938,7 @@
         // If user is scrolling up into the modal content or swiping horizontally on the gallery, cancel pull-to-close
         if (dy <= 0 || (!startedOnHeader && Math.abs(dx) > Math.abs(dy))) {
           if (currentDY > 0) resetModalTransform();
-          if (dy < -5) isPullingSheet = false;
+          if (dy < -4) isPullingSheet = false;
           return;
         }
 
@@ -3010,9 +2951,9 @@
         if (event && event.cancelable) event.preventDefault();
         currentDY = dy;
         projectModal.classList.add("dragging");
-        projectModal.style.transform = `translateY(${dy}px)`;
-        const dim = Math.max(0.12, 0.56 * (1 - Math.min(dy / 360, 0.85)));
-        modalBackdrop.style.background = `rgba(28, 25, 22, ${dim})`;
+        projectModal.style.transform = `translate3d(0, ${dy}px, 0)`;
+        const dim = Math.max(0.1, 0.52 * (1 - Math.min(dy / 380, 0.85)));
+        modalBackdrop.style.background = `rgba(18, 16, 14, ${dim})`;
       }
 
       function onEnd() {
@@ -3022,8 +2963,8 @@
         const elapsed = Math.max(1, Date.now() - startTime);
         const velocityY = currentDY / elapsed; // px per ms
 
-        if (currentDY > 58 || (currentDY > 22 && velocityY > 0.32)) {
-          closeProjectModal(true);
+        if (currentDY > 56 || (currentDY > 20 && velocityY > 0.3)) {
+          closeProjectModal();
         } else if (currentDY > 0) {
           resetModalTransform();
         }
@@ -3089,31 +3030,27 @@
     const heroPolaroid = document.getElementById("heroPolaroid");
     if (heroPolaroid) {
       heroPolaroid.addEventListener("click", () => {
-        playSound("camera");
         document.getElementById("aboutSection").scrollIntoView({ behavior: "smooth" });
       });
     }
 
-    document.getElementById("modalCloseBtn").addEventListener("click", closeProjectModal);
-    document.getElementById("macDotClose").addEventListener("click", closeProjectModal);
+    document.getElementById("modalCloseBtn").addEventListener("click", () => closeProjectModal());
+    document.getElementById("macDotClose").addEventListener("click", () => closeProjectModal());
     modalBackdrop.addEventListener("click", e => {
       if (e.target === modalBackdrop) closeProjectModal();
     });
 
     document.getElementById("modalPrevBtn").addEventListener("click", () => {
-      playSound("click");
       renderModalSlide(currentSlideIdx - 1);
     });
 
     document.getElementById("modalNextBtn").addEventListener("click", () => {
-      playSound("click");
       renderModalSlide(currentSlideIdx + 1);
     });
 
     retouchToggleBtn.addEventListener("click", () => {
       const isRaw = modalHeroViewer.classList.toggle("raw-grade");
       modalGradeBadge.textContent = isRaw ? "○ Camera RAW Proof (Unretouched)" : "● Retouched Editorial Grade";
-      playSound("camera");
     });
 
     window.addEventListener("keydown", e => {
@@ -3144,7 +3081,6 @@
         heroStage.setAttribute("data-mode", mode);
         document.querySelectorAll("[data-set-mode]").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
-        playSound("click");
         document.querySelectorAll(".desk-item").forEach(el => {
           el.style.left = "";
           el.style.top = "";
@@ -3152,18 +3088,14 @@
       });
     });
 
-    // 3. Draggable Desk Items + Sound Effects
+    // 3. Draggable Desk Items (Desktop)
     document.querySelectorAll(".desk-item").forEach(item => {
       let dragging = false;
       let startX = 0, startY = 0, origLeft = 0, origTop = 0;
 
       item.addEventListener("pointerdown", e => {
         if (e.target.tagName === "BUTTON" || e.target.closest("#airdropPhotoClick") || e.target.closest("[data-open-project]")) return;
-        if (window.innerWidth <= 809) {
-          const s = item.getAttribute("data-sound");
-          if (s) playSound(s);
-          return;
-        }
+        if (window.innerWidth <= 809) return;
         dragging = true;
         startX = e.clientX;
         startY = e.clientY;
@@ -3183,28 +3115,15 @@
       item.addEventListener("pointerup", () => {
         if (!dragging) return;
         dragging = false;
-        const s = item.getAttribute("data-sound");
-        if (s) playSound(s);
       });
     });
 
-    // 4. Vinyl Music Player Toggle
+    // 4. Vinyl Spin Toggle (Visual Only — Silent)
     const musicCard = document.getElementById("musicCard");
     const vinylToggle = document.getElementById("vinylToggle");
-    let musicAudio = null;
     vinylToggle.addEventListener("click", e => {
       e.stopPropagation();
-      if (!musicAudio) {
-        musicAudio = new Audio(SOUNDS.music);
-        musicAudio.loop = true;
-      }
-      if (musicCard.classList.contains("playing")) {
-        musicCard.classList.remove("playing");
-        musicAudio.pause();
-      } else {
-        musicCard.classList.add("playing");
-        musicAudio.play().catch(() => {});
-      }
+      musicCard.classList.toggle("playing");
     });
 
     // 5. AirDrop Accept / Decline + Tap Photo to Open Popup
@@ -3221,7 +3140,6 @@
 
     document.getElementById("airdropAccept").addEventListener("click", e => {
       e.stopPropagation();
-      playSound("airdrop");
       airdropCard.classList.add("accepted");
       airdropSub.textContent = "Saved · Tap photo to view ✨";
       openProjectModal(airdropPhotos[photoIdx].pid);
@@ -3234,11 +3152,10 @@
 
     document.getElementById("airdropDecline").addEventListener("click", e => {
       e.stopPropagation();
-      playSound("click");
       airdropCard.classList.remove("accepted");
       photoIdx = (photoIdx + 1) % airdropPhotos.length;
       airdropImg.src = airdropPhotos[photoIdx].src;
-      airdropSub.textContent = "Anh Jolie would like to share a photo";
+      airdropSub.textContent = "Jolie Anh would like to share a photo";
     });
 
     // 6. Recently Made Hover Preview + Sync Preview Stage Popup Target
@@ -3277,7 +3194,6 @@
           const cats = card.getAttribute("data-category") || "";
           card.style.display = (f === "all" || cats.includes(f)) ? "block" : "none";
         });
-        playSound("click");
       });
     });
   </script>

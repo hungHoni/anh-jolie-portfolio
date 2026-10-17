@@ -4,13 +4,25 @@ import { join } from "node:path";
 
 const html = readFileSync(join(import.meta.dir, "..", "index.html"), "utf8");
 
-describe("Anh Jolie Portfolio (index.html)", () => {
+describe("Jolie Anh Portfolio (index.html)", () => {
   test("does not contain Buy Me a Coffee section", () => {
     expect(html.toLowerCase()).not.toContain("buy me a coffee");
     expect(html.toLowerCase()).not.toContain("grab me coffee");
   });
 
-  test("includes Anh Jolie profile photo in Hero Polaroid, About card, and Modal header", () => {
+  test("removes all sound effects and audio playback", () => {
+    expect(html).not.toContain("wenqian-hu/sound-effects");
+    expect(html).not.toContain("new Audio");
+    expect(html).not.toContain("playSound(");
+  });
+
+  test("uses the name Jolie Anh everywhere instead of Anh Jolie", () => {
+    expect(html).toContain("Jolie Anh");
+    expect(html).not.toContain("Anh Jolie");
+    expect(html).not.toContain("ANH JOLIE");
+  });
+
+  test("includes Jolie Anh profile photo in Hero Polaroid, About card, and Modal header", () => {
     const avatarUrl = "https://pps.services.adobe.com/api/profile/750D1D81658C55D60A495EF0@AdobeID/image/1b6f3408-648a-427c-b1b6-2637dbc64928/276";
     const occurrences = html.split(avatarUrl).length - 1;
     expect(occurrences).toBeGreaterThanOrEqual(3);
@@ -44,13 +56,12 @@ describe("Anh Jolie Portfolio (index.html)", () => {
     expect(html).toContain("@media (max-width: 809.98px)");
   });
 
-  test("supports swipe-down / pull-down gesture and locks background scroll on iOS Safari without close-flash", () => {
+  test("uses iPhone-native sheet spring curve cubic-bezier(0.32, 0.72, 0, 1) and GPU translate3d for smooth popup open/close and swipe-down", () => {
     expect(html).toContain('id="modalDragHandle"');
     expect(html).toContain('class="modal-drag-pill"');
     expect(html).toContain('id="modalBody"');
     expect(html).toContain("setupModalPullDownToClose");
-    expect(html).toContain("lockBodyScroll");
-    expect(html).toContain("unlockBodyScroll");
-    expect(html).toContain("closeProjectModal(true)");
+    expect(html).toContain("cubic-bezier(0.32, 0.72, 0, 1)");
+    expect(html).toContain("translate3d(0, 102%, 0)");
   });
 });
