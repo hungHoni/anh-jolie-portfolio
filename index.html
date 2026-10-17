@@ -1093,6 +1093,8 @@
       padding: 24px;
       opacity: 0;
       pointer-events: none;
+      overscroll-behavior: none;
+      touch-action: none;
       transition: opacity 0.3s ease;
     }
 
@@ -1105,12 +1107,13 @@
       width: 100%;
       max-width: 1040px;
       max-height: 91vh;
+      max-height: 91dvh;
       background: #FFFAF5;
       border: 1px solid rgba(39, 43, 45, 0.12);
       border-radius: 24px;
       box-shadow: 0 36px 90px rgba(20, 18, 15, 0.32), 0 2px 10px rgba(0,0,0,0.06);
-      overflow-y: auto;
-      overscroll-behavior-y: contain;
+      overflow: hidden;
+      overscroll-behavior: none;
       transform: translateY(24px) scale(0.97);
       transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
       display: flex;
@@ -1129,18 +1132,17 @@
 
     /* macOS + Editorial Window Top Chrome with Pull-Down Grabber */
     .modal-topbar {
-      position: sticky;
-      top: 0;
-      background: rgba(255, 250, 245, 0.95);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      padding: 8px 24px 12px;
-      border-bottom: 1px solid rgba(0,0,0,0.07);
+      flex-shrink: 0;
+      background: #FFFAF5;
+      padding: 10px 24px 12px;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
       z-index: 20;
       touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
       cursor: grab;
     }
 
@@ -1154,31 +1156,32 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 3px;
+      gap: 4px;
       padding: 2px 0 2px;
+      touch-action: none;
       cursor: grab;
     }
 
     .modal-drag-pill {
-      width: 44px;
+      width: 48px;
       height: 5px;
       border-radius: 99px;
-      background: rgba(39, 43, 45, 0.22);
+      background: rgba(39, 43, 45, 0.26);
       transition: background 0.2s ease, width 0.2s ease;
     }
 
     .modal-topbar:hover .modal-drag-pill,
     .project-modal.dragging .modal-drag-pill {
-      background: rgba(39, 43, 45, 0.42);
-      width: 54px;
+      background: rgba(39, 43, 45, 0.48);
+      width: 58px;
     }
 
     .modal-drag-hint {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 9px;
+      font-size: 9.5px;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: rgba(39, 43, 45, 0.42);
+      color: rgba(39, 43, 45, 0.48);
       line-height: 1;
     }
 
@@ -1272,6 +1275,11 @@
     }
 
     .modal-body {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: contain;
+      touch-action: pan-y;
       padding: 28px 34px 34px;
     }
 
@@ -2572,7 +2580,7 @@
         </div>
       </div>
 
-      <div class="modal-body">
+      <div class="modal-body" id="modalBody">
         <!-- Editorial Magazine Header -->
         <div class="modal-editorial-header">
           <div>
@@ -2773,6 +2781,7 @@
     const modalBackdrop = document.getElementById("projectModalBackdrop");
     const projectModal = document.getElementById("projectModal");
     const modalTopbar = document.getElementById("modalTopbar");
+    const modalBody = document.getElementById("modalBody");
     const modalTitle = document.getElementById("modalTitle");
     const modalCategory = document.getElementById("modalCategory");
     const modalFilePill = document.getElementById("modalFilePill");
@@ -2794,6 +2803,39 @@
     let currentProjectId = null;
     let currentProject = null;
     let currentSlideIdx = 0;
+    let lockedScrollY = 0;
+    let isBodyScrollLocked = false;
+
+    // iOS Safari & Mobile Background Scroll Lock (prevents the behind screen from ever scrolling)
+    function lockBodyScroll() {
+      if (isBodyScrollLocked) return;
+      lockedScrollY = window.scrollY || window.pageYOffset || 0;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${lockedScrollY}px`;
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      document.body.style.width = "100%";
+      document.body.classList.add("modal-open");
+      isBodyScrollLocked = true;
+    }
+
+    function unlockBodyScroll() {
+      if (!isBodyScrollLocked) return;
+      const htmlEl = document.documentElement;
+      const prevBehavior = htmlEl.style.scrollBehavior;
+      htmlEl.style.scrollBehavior = "auto";
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.width = "";
+      document.body.classList.remove("modal-open");
+      isBodyScrollLocked = false;
+      window.scrollTo(0, lockedScrollY);
+      requestAnimationFrame(() => {
+        htmlEl.style.scrollBehavior = prevBehavior;
+      });
+    }
 
     function pad2(n) {
       return n < 10 ? "0" + n : String(n);
@@ -2862,25 +2904,25 @@
       nextProjectBtn.onclick = () => {
         playSound("notebook");
         openProjectModal(nextKey);
-        projectModal.scrollTo({ top: 0, behavior: "smooth" });
+        modalBody.scrollTo({ top: 0, behavior: "smooth" });
       };
 
       resetModalTransform();
-      projectModal.scrollTop = 0;
+      modalBody.scrollTop = 0;
       renderModalSlide(0);
+      lockBodyScroll();
       modalBackdrop.classList.add("open");
-      document.body.classList.add("modal-open");
       playSound("folder");
     }
 
     function closeProjectModal() {
       resetModalTransform();
       modalBackdrop.classList.remove("open");
-      document.body.classList.remove("modal-open");
+      unlockBodyScroll();
       playSound("click");
     }
 
-    // Native-feeling Swipe-Down / Pull-Down to Close Gesture (Mobile Touch + Header Pointer Drag)
+    // Native-feeling Swipe-Down / Pull-Down to Close Gesture (iOS Safari Safe + Header Grab at Any Scroll Position)
     function setupModalPullDownToClose() {
       let startY = 0;
       let startX = 0;
@@ -2888,7 +2930,6 @@
       let startTime = 0;
       let isPullingSheet = false;
       let startedOnHeader = false;
-
       let touchActive = false;
       let lastTouchY = 0;
 
@@ -2898,8 +2939,8 @@
         touchActive = true;
         lastTouchY = clientY;
         startedOnHeader = Boolean(target.closest("#modalTopbar") || target.closest("#modalDragHandle"));
-        // Allow pull-down either from the topbar OR whenever the modal is scrolled to the top
-        if (!startedOnHeader && projectModal.scrollTop > 8) {
+        // Allow pull-down from the topbar at ANY scroll position, OR from modalBody when scrolled to the top
+        if (!startedOnHeader && modalBody.scrollTop > 6) {
           isPullingSheet = false;
           return;
         }
@@ -2913,7 +2954,7 @@
 
       function onMove(clientY, clientX, event) {
         // Seamless handoff: if touch started while scrolled down, and user scrolled back to top (scrollTop <= 0) while still pulling down
-        if (!isPullingSheet && touchActive && projectModal.scrollTop <= 0 && clientY > lastTouchY) {
+        if (!isPullingSheet && touchActive && modalBody.scrollTop <= 0 && clientY > lastTouchY) {
           startY = clientY;
           startX = clientX;
           currentDY = 0;
@@ -2933,8 +2974,8 @@
           return;
         }
 
-        // Only engage sheet drag if modal is at top or drag started on topbar
-        if (!startedOnHeader && projectModal.scrollTop > 2) {
+        // Only engage sheet drag if modalBody is at top or drag started on topbar
+        if (!startedOnHeader && modalBody.scrollTop > 2) {
           isPullingSheet = false;
           return;
         }
@@ -2943,7 +2984,7 @@
         currentDY = dy;
         projectModal.classList.add("dragging");
         projectModal.style.transform = `translateY(${dy}px)`;
-        const dim = Math.max(0.12, 0.56 * (1 - Math.min(dy / 420, 0.8)));
+        const dim = Math.max(0.12, 0.56 * (1 - Math.min(dy / 360, 0.85)));
         modalBackdrop.style.background = `rgba(28, 25, 22, ${dim})`;
       }
 
@@ -2954,17 +2995,25 @@
         const elapsed = Math.max(1, Date.now() - startTime);
         const velocityY = currentDY / elapsed; // px per ms
 
-        if (currentDY > 78 || (currentDY > 32 && velocityY > 0.45)) {
+        if (currentDY > 58 || (currentDY > 22 && velocityY > 0.32)) {
           projectModal.classList.remove("dragging");
-          projectModal.style.transform = "translateY(100%)";
+          projectModal.style.transform = "translateY(105%)";
           setTimeout(() => {
             closeProjectModal();
-          }, 180);
+          }, 160);
         } else if (currentDY > 0) {
           resetModalTransform();
         }
         currentDY = 0;
       }
+
+      // Block iOS Safari background rubber-banding anywhere on the backdrop or topbar
+      modalBackdrop.addEventListener("touchmove", e => {
+        if (!modalBackdrop.classList.contains("open")) return;
+        if (!modalBody.contains(e.target) && e.cancelable) {
+          e.preventDefault();
+        }
+      }, { passive: false });
 
       // Touch listeners on the modal (works on iPhone / Android)
       projectModal.addEventListener("touchstart", e => {

@@ -44,9 +44,12 @@ describe("Anh Jolie Portfolio (index.html)", () => {
     expect(html).toContain("@media (max-width: 809.98px)");
   });
 
-  test("supports swipe-down / pull-down gesture and drag handle to close popup modal", () => {
+  test("supports swipe-down / pull-down gesture and locks background scroll on iOS Safari", () => {
     expect(html).toContain('id="modalDragHandle"');
     expect(html).toContain('class="modal-drag-pill"');
+    expect(html).toContain('id="modalBody"');
     expect(html).toContain("setupModalPullDownToClose");
+    expect(html).toContain("lockBodyScroll");
+    expect(html).toContain("unlockBodyScroll");
   });
 });
