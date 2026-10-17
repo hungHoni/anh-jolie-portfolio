@@ -671,6 +671,12 @@
       gap: 4px;
     }
 
+    /* Hidden on desktop (desktop uses the right-side .preview-stage), shown on iPhone/mobile as a rich layered lookbook stage! */
+    .project-mobile-stage,
+    .project-handnote-mobile {
+      display: none;
+    }
+
     /* Right-side Interactive Showcase Stage */
     .preview-stage {
       position: relative;
@@ -1775,32 +1781,161 @@
         min-height: auto;
       }
 
-      /* On mobile, tapping any project opens the popup directly */
+      /* On mobile, transform Recently Made into rich tactile layered Lookbook Cards! */
       .preview-stage {
         display: none;
       }
 
+      .project-list {
+        gap: 22px;
+      }
+
       .project-card {
-        padding: 16px 18px;
-        gap: 16px;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 14px;
+        gap: 14px;
+        background: #FAF5EE;
+        border: 1px solid rgba(39, 43, 45, 0.09);
+        border-radius: 22px;
+        box-shadow: 0 14px 34px rgba(28, 24, 20, 0.06);
+      }
+
+      .project-card.active,
+      .project-card:hover {
         background: #fff;
       }
 
+      /* Hide the tiny 68px icon on mobile and show the full layered studio stage instead! */
       .project-icon {
-        width: 68px;
-        height: 68px;
-        border-radius: 14px;
+        display: none;
+      }
+
+      .project-mobile-stage {
+        display: block;
+        position: relative;
+        width: 100%;
+        height: 224px;
+        border-radius: 16px;
+        background: #EFE8DD;
+        background-image: radial-gradient(rgba(39, 43, 45, 0.1) 1px, transparent 1px);
+        background-size: 14px 14px;
+        overflow: hidden;
+        border: 1px solid rgba(0,0,0,0.06);
+        padding: 12px;
+      }
+
+      .mobile-stage-main {
+        width: 82%;
+        height: 100%;
+        border-radius: 12px;
+        overflow: hidden;
+        background: #fff;
+        padding: 5px;
+        box-shadow: 0 12px 28px rgba(0,0,0,0.14);
+        transform: rotate(-1.5deg);
+      }
+
+      .mobile-stage-main img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+        display: block;
+      }
+
+      .mobile-stage-sub {
+        position: absolute;
+        right: 12px;
+        bottom: 12px;
+        width: 104px;
+        height: 132px;
+        background: #fff;
+        padding: 5px 5px 16px;
+        border-radius: 10px;
+        box-shadow: 0 14px 30px rgba(0,0,0,0.22);
+        border: 1px solid rgba(0,0,0,0.08);
+        transform: rotate(6deg);
+        z-index: 4;
+      }
+
+      .mobile-stage-sub img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 6px;
+        display: block;
+      }
+
+      .mobile-stage-badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        z-index: 5;
+        background: rgba(255, 250, 245, 0.94);
+        backdrop-filter: blur(8px);
+        color: #1a1c1d;
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 10.5px;
+        font-weight: 600;
+        padding: 4px 10px;
+        border-radius: 99px;
+        border: 1px solid rgba(0,0,0,0.08);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      }
+
+      .mobile-stage-cursor {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        z-index: 6;
+        background: #ef6437;
+        color: #fff;
+        font-family: "SF Pro Text Semibold", -apple-system, sans-serif;
+        font-size: 11px;
+        padding: 4px 11px;
+        border-radius: 99px;
+        box-shadow: 0 6px 14px rgba(239, 100, 55, 0.35);
+      }
+
+      .project-info {
+        padding: 2px 6px 4px;
+      }
+
+      .project-handnote-mobile {
+        display: block;
+        font-family: 'Reenie Beanie', cursive;
+        font-size: 21px;
+        color: #6b645c;
+        line-height: 1.1;
+        margin-bottom: 4px;
       }
 
       .project-info h3 {
-        font-size: 14.5px;
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 5px;
       }
 
       .project-info p {
-        font-size: 12.5px;
+        font-size: 13px;
+        color: #5c6064;
+        line-height: 1.5;
       }
 
-      /* Moodboards Horizontal Scroll Pills & Vertical Cards with Top Banner on Mobile */
+      .project-tap-hint {
+        margin-top: 10px;
+        background: #fff;
+        border: 1px solid rgba(0,0,0,0.09);
+        padding: 6px 12px;
+        border-radius: 99px;
+        font-size: 11.5px;
+        font-weight: 500;
+        color: #1a1c1d;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      }
+
+      /* Moodboards Horizontal Scroll Pills & Layered Cards on Mobile */
       .moodboard-tabs {
         flex-wrap: nowrap;
         overflow-x: auto;
@@ -1810,7 +1945,7 @@
 
       .other-work-grid {
         grid-template-columns: 1fr;
-        gap: 18px;
+        gap: 20px;
       }
 
       .flip-card {
@@ -1826,15 +1961,33 @@
         position: relative;
         flex-direction: column;
         align-items: flex-start;
-        padding: 18px;
-        gap: 16px;
-        background: #fff;
+        padding: 14px;
+        gap: 14px;
+        background: #FAF5EE;
+        border: 1px solid rgba(39, 43, 45, 0.09);
+        border-radius: 22px;
+        box-shadow: 0 12px 28px rgba(28, 24, 20, 0.05);
       }
 
       .flip-thumb {
         width: 100%;
-        height: 185px;
-        border-radius: 12px;
+        height: 200px;
+        border-radius: 14px;
+        border: 4px solid #fff;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      }
+
+      .flip-meta {
+        padding: 0 6px 4px;
+      }
+
+      .flip-link-icon {
+        background: #fff;
+        border: 1px solid rgba(0,0,0,0.09);
+        padding: 6px 12px;
+        border-radius: 99px;
+        color: #1a1c1d;
+        font-weight: 500;
       }
 
       .flip-back {
@@ -2080,10 +2233,21 @@
            data-sub="https://mir-s3-cdn-cf.behance.net/projects/max_808/b65f61251378263.Y3JvcCwzMTMxLDI0NDksODgzLDExNzg.jpg"
            data-label="LE THANH HOA RESORT 2026 · Click to view gallery">
           <img class="project-icon" src="https://mir-s3-cdn-cf.behance.net/projects/404/3b5515251380835.Y3JvcCw1NTA0LDQzMDUsMCwxOTIw.jpg" alt="Le Thanh Hoa Resort 2026" />
+          <div class="project-mobile-stage">
+            <span class="mobile-stage-badge">01 · LOOKBOOK 2026</span>
+            <span class="mobile-stage-cursor">Anh Jolie</span>
+            <div class="mobile-stage-main">
+              <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/3b5515251380835.Y3JvcCw1NTA0LDQzMDUsMCwxOTIw.jpg" alt="Le Thanh Hoa Resort 2026 Main" />
+            </div>
+            <div class="mobile-stage-sub">
+              <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/b65f61251378263.Y3JvcCwzMTMxLDI0NDksODgzLDExNzg.jpg" alt="Le Thanh Hoa Resort 2026 Detail" />
+            </div>
+          </div>
           <div class="project-info">
+            <span class="project-handnote-mobile">sunlit resort movement &amp; luminous skin ✨</span>
             <h3>LE THANH HOA RESORT 2026</h3>
             <p>High-fashion resort lookbook &amp; editorial color retouching</p>
-            <span class="project-tap-hint">⊕ View showcase popup (4 frames)</span>
+            <span class="project-tap-hint">⊕ Open 4-Frame Studio Lookbook →</span>
           </div>
         </button>
 
@@ -2094,10 +2258,20 @@
            data-sub="https://mir-s3-cdn-cf.behance.net/projects/max_808/1bc210242325057.Y3JvcCwzMTUxLDI0NjQsMCw4MTg.jpg"
            data-label="BEAUTY RETOUCH · Starring Chipu &amp; Model Karina">
           <img class="project-icon" src="https://mir-s3-cdn-cf.behance.net/projects/404/eb3c82251380249.Y3JvcCw5MDcsNzA5LDQzMywyNg.jpg" alt="Beauty Retouch Karina & Chipu" />
+          <div class="project-mobile-stage">
+            <span class="mobile-stage-badge">02 · MACRO BEAUTY</span>
+            <div class="mobile-stage-main">
+              <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/eb3c82251380249.Y3JvcCw5MDcsNzA5LDQzMywyNg.jpg" alt="Beauty Retouch Chipu & Karina Main" />
+            </div>
+            <div class="mobile-stage-sub">
+              <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/1bc210242325057.Y3JvcCwzMTUxLDI0NjQsMCw4MTg.jpg" alt="Beauty Retouch Detail" />
+            </div>
+          </div>
           <div class="project-info">
+            <span class="project-handnote-mobile">zero-blur frequency separation &amp; pore detail 🌿</span>
             <h3>Beauty Retouch (Chipu &amp; Karina)</h3>
             <p>Luminous skin texture &amp; editorial beauty campaign</p>
-            <span class="project-tap-hint">⊕ View showcase popup (4 frames)</span>
+            <span class="project-tap-hint">⊕ Open 4-Frame Studio Lookbook →</span>
           </div>
         </button>
 
@@ -2108,10 +2282,20 @@
            data-sub="https://mir-s3-cdn-cf.behance.net/projects/max_808/5e6978215864055.Y3JvcCwyMTE0LDE2NTQsMjYxLDA.jpg"
            data-label="PAULA'S CHOICE VIETNAM · Skincare &amp; Product Campaign">
           <img class="project-icon" src="https://mir-s3-cdn-cf.behance.net/projects/404/e50c9c251379691.Y3JvcCwxMDkzLDg1NSw4NTUsMA.jpg" alt="Paula's Choice Vietnam" />
+          <div class="project-mobile-stage">
+            <span class="mobile-stage-badge">03 · SKINCARE &amp; BRAND</span>
+            <div class="mobile-stage-main">
+              <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/e50c9c251379691.Y3JvcCwxMDkzLDg1NSw4NTUsMA.jpg" alt="Paula's Choice Vietnam Main" />
+            </div>
+            <div class="mobile-stage-sub">
+              <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/5e6978215864055.Y3JvcCwyMTE0LDE2NTQsMjYxLDA.jpg" alt="Layla Candles Detail" />
+            </div>
+          </div>
           <div class="project-info">
+            <span class="project-handnote-mobile">clean bottle reflections &amp; clinical glow 💧</span>
             <h3>Paula's Choice &amp; Brand Campaigns</h3>
             <p>Commercial product retouching, Layla &amp; Soluna Candles</p>
-            <span class="project-tap-hint">⊕ View showcase popup (4 frames)</span>
+            <span class="project-tap-hint">⊕ Open 4-Frame Studio Lookbook →</span>
           </div>
         </button>
 
@@ -2122,10 +2306,20 @@
            data-sub="https://mir-s3-cdn-cf.behance.net/projects/max_808/8d1d26251377661.Y3JvcCw1NTA0LDQzMDUsMCwxNTI1.jpg"
            data-label="EDITORIAL: BLOOM, GLAMDOLL &amp; DATT LOOKBOOK">
           <img class="project-icon" src="https://mir-s3-cdn-cf.behance.net/projects/404/631aa1251378989.Y3JvcCw4MzI0LDY1MTAsMCwyMjA0.jpg" alt="Editorial Bloom" />
+          <div class="project-mobile-stage">
+            <span class="mobile-stage-badge">04 · FINE-ART EDITORIAL</span>
+            <div class="mobile-stage-main">
+              <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/631aa1251378989.Y3JvcCw4MzI0LDY1MTAsMCwyMjA0.jpg" alt="Editorial Bloom Main" />
+            </div>
+            <div class="mobile-stage-sub">
+              <img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/8d1d26251377661.Y3JvcCw1NTA0LDQzMDUsMCwxNTI1.jpg" alt="Glamdoll Lookbook Detail" />
+            </div>
+          </div>
           <div class="project-info">
+            <span class="project-handnote-mobile">sculptural shadows &amp; fine-art mood 🎞️</span>
             <h3>Editorial: Bloom, Glamdoll &amp; DATT</h3>
             <p>Fine-art portrait retouching &amp; fashion lookbook series</p>
-            <span class="project-tap-hint">⊕ View showcase popup (4 frames)</span>
+            <span class="project-tap-hint">⊕ Open 4-Frame Studio Lookbook →</span>
           </div>
         </button>
       </div>
