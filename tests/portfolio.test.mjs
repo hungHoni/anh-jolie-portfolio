@@ -43,4 +43,10 @@ describe("Anh Jolie Portfolio (index.html)", () => {
   test("includes mobile responsive breakpoint (<= 809.98px) modeled after jackiehu.design", () => {
     expect(html).toContain("@media (max-width: 809.98px)");
   });
+
+  test("supports swipe-down / pull-down gesture and drag handle to close popup modal", () => {
+    expect(html).toContain('id="modalDragHandle"');
+    expect(html).toContain('class="modal-drag-pill"');
+    expect(html).toContain("setupModalPullDownToClose");
+  });
 });

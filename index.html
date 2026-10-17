@@ -1110,30 +1110,84 @@
       border-radius: 24px;
       box-shadow: 0 36px 90px rgba(20, 18, 15, 0.32), 0 2px 10px rgba(0,0,0,0.06);
       overflow-y: auto;
+      overscroll-behavior-y: contain;
       transform: translateY(24px) scale(0.97);
-      transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
       display: flex;
       flex-direction: column;
+      will-change: transform;
+    }
+
+    .project-modal.dragging {
+      transition: none !important;
+      user-select: none;
     }
 
     .project-modal-backdrop.open .project-modal {
       transform: translateY(0) scale(1);
     }
 
-    /* macOS + Editorial Window Top Chrome */
+    /* macOS + Editorial Window Top Chrome with Pull-Down Grabber */
     .modal-topbar {
       position: sticky;
       top: 0;
-      background: rgba(255, 250, 245, 0.94);
+      background: rgba(255, 250, 245, 0.95);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      padding: 14px 24px;
+      padding: 8px 24px 12px;
       border-bottom: 1px solid rgba(0,0,0,0.07);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 20;
+      touch-action: none;
+      cursor: grab;
+    }
+
+    .modal-topbar:active {
+      cursor: grabbing;
+    }
+
+    .modal-drag-handle {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      padding: 2px 0 2px;
+      cursor: grab;
+    }
+
+    .modal-drag-pill {
+      width: 44px;
+      height: 5px;
+      border-radius: 99px;
+      background: rgba(39, 43, 45, 0.22);
+      transition: background 0.2s ease, width 0.2s ease;
+    }
+
+    .modal-topbar:hover .modal-drag-pill,
+    .project-modal.dragging .modal-drag-pill {
+      background: rgba(39, 43, 45, 0.42);
+      width: 54px;
+    }
+
+    .modal-drag-hint {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(39, 43, 45, 0.42);
+      line-height: 1;
+    }
+
+    .modal-topbar-row {
+      width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 16px;
-      z-index: 20;
     }
 
     .modal-window-left {
@@ -2492,23 +2546,29 @@
   <!-- ===================== EDITORIAL LOOKBOOK & STUDIO POPUP MODAL ===================== -->
   <div class="project-modal-backdrop" id="projectModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="project-modal" id="projectModal">
-      <!-- macOS Studio Window Chrome Header -->
-      <div class="modal-topbar">
-        <div class="modal-window-left">
-          <div class="mac-dots">
-            <button class="mac-dot close" id="macDotClose" type="button" title="Close window" aria-label="Close"></button>
-            <span class="mac-dot min"></span>
-            <span class="mac-dot max"></span>
-          </div>
-          <span class="modal-file-pill" id="modalFilePill">~/Anh_Jolie_Studio/Resort_2026.psd @ 100%</span>
+      <!-- macOS Studio Window Chrome Header + Swipe-Down Grabber -->
+      <div class="modal-topbar" id="modalTopbar">
+        <div class="modal-drag-handle" id="modalDragHandle" title="Swipe or drag down to close">
+          <div class="modal-drag-pill"></div>
+          <span class="modal-drag-hint">↓ Swipe down to close</span>
         </div>
-
-        <div class="modal-window-right">
-          <div class="modal-artist-chip">
-            <img src="https://pps.services.adobe.com/api/profile/750D1D81658C55D60A495EF0@AdobeID/image/1b6f3408-648a-427c-b1b6-2637dbc64928/276" alt="Anh Jolie" />
-            <span>Anh Jolie</span>
+        <div class="modal-topbar-row">
+          <div class="modal-window-left">
+            <div class="mac-dots">
+              <button class="mac-dot close" id="macDotClose" type="button" title="Close window" aria-label="Close"></button>
+              <span class="mac-dot min"></span>
+              <span class="mac-dot max"></span>
+            </div>
+            <span class="modal-file-pill" id="modalFilePill">~/Anh_Jolie_Studio/Resort_2026.psd @ 100%</span>
           </div>
-          <button class="modal-close-btn" id="modalCloseBtn" type="button" aria-label="Close popup">✕ Close</button>
+
+          <div class="modal-window-right">
+            <div class="modal-artist-chip">
+              <img src="https://pps.services.adobe.com/api/profile/750D1D81658C55D60A495EF0@AdobeID/image/1b6f3408-648a-427c-b1b6-2637dbc64928/276" alt="Anh Jolie" />
+              <span>Anh Jolie</span>
+            </div>
+            <button class="modal-close-btn" id="modalCloseBtn" type="button" aria-label="Close popup">✕ Close</button>
+          </div>
         </div>
       </div>
 
@@ -2555,7 +2615,7 @@
 
         <!-- Seamless Up-Next Project Footer inside Popup -->
         <div class="modal-footer-nav">
-          <span style="font-size: 12px; color: #7b8085;">Tip: Use ← → arrow keys or swipe to flip frames</span>
+          <span style="font-size: 12px; color: #7b8085;">Tip: Swipe down anywhere from the top to close</span>
           <button class="next-project-btn" id="nextProjectBtn" type="button">
             <img id="nextProjectThumb" src="" alt="Next project" />
             <span id="nextProjectLabel">Next: Beauty Retouch →</span>
@@ -2711,6 +2771,8 @@
 
     // 1. Editorial Lookbook Popup Modal Controller
     const modalBackdrop = document.getElementById("projectModalBackdrop");
+    const projectModal = document.getElementById("projectModal");
+    const modalTopbar = document.getElementById("modalTopbar");
     const modalTitle = document.getElementById("modalTitle");
     const modalCategory = document.getElementById("modalCategory");
     const modalFilePill = document.getElementById("modalFilePill");
@@ -2750,6 +2812,12 @@
       modalThumbs.querySelectorAll(".contact-frame").forEach((t, i) => {
         t.classList.toggle("active", i === currentSlideIdx);
       });
+    }
+
+    function resetModalTransform() {
+      projectModal.classList.remove("dragging");
+      projectModal.style.transform = "";
+      modalBackdrop.style.background = "";
     }
 
     function openProjectModal(projectId) {
@@ -2794,9 +2862,11 @@
       nextProjectBtn.onclick = () => {
         playSound("notebook");
         openProjectModal(nextKey);
-        document.getElementById("projectModal").scrollTo({ top: 0, behavior: "smooth" });
+        projectModal.scrollTo({ top: 0, behavior: "smooth" });
       };
 
+      resetModalTransform();
+      projectModal.scrollTop = 0;
       renderModalSlide(0);
       modalBackdrop.classList.add("open");
       document.body.classList.add("modal-open");
@@ -2804,10 +2874,135 @@
     }
 
     function closeProjectModal() {
+      resetModalTransform();
       modalBackdrop.classList.remove("open");
       document.body.classList.remove("modal-open");
       playSound("click");
     }
+
+    // Native-feeling Swipe-Down / Pull-Down to Close Gesture (Mobile Touch + Header Pointer Drag)
+    function setupModalPullDownToClose() {
+      let startY = 0;
+      let startX = 0;
+      let currentDY = 0;
+      let startTime = 0;
+      let isPullingSheet = false;
+      let startedOnHeader = false;
+
+      let touchActive = false;
+      let lastTouchY = 0;
+
+      function onStart(clientY, clientX, target) {
+        if (!modalBackdrop.classList.contains("open")) return;
+        if (target.closest("button") && !target.closest("#modalDragHandle")) return;
+        touchActive = true;
+        lastTouchY = clientY;
+        startedOnHeader = Boolean(target.closest("#modalTopbar") || target.closest("#modalDragHandle"));
+        // Allow pull-down either from the topbar OR whenever the modal is scrolled to the top
+        if (!startedOnHeader && projectModal.scrollTop > 8) {
+          isPullingSheet = false;
+          return;
+        }
+
+        startY = clientY;
+        startX = clientX;
+        currentDY = 0;
+        startTime = Date.now();
+        isPullingSheet = true;
+      }
+
+      function onMove(clientY, clientX, event) {
+        // Seamless handoff: if touch started while scrolled down, and user scrolled back to top (scrollTop <= 0) while still pulling down
+        if (!isPullingSheet && touchActive && projectModal.scrollTop <= 0 && clientY > lastTouchY) {
+          startY = clientY;
+          startX = clientX;
+          currentDY = 0;
+          startTime = Date.now();
+          isPullingSheet = true;
+        }
+        lastTouchY = clientY;
+
+        if (!isPullingSheet) return;
+        const dy = clientY - startY;
+        const dx = clientX - startX;
+
+        // If user is scrolling up into the modal content or swiping horizontally on the gallery, cancel pull-to-close
+        if (dy <= 0 || (!startedOnHeader && Math.abs(dx) > Math.abs(dy))) {
+          if (currentDY > 0) resetModalTransform();
+          if (dy < -5) isPullingSheet = false;
+          return;
+        }
+
+        // Only engage sheet drag if modal is at top or drag started on topbar
+        if (!startedOnHeader && projectModal.scrollTop > 2) {
+          isPullingSheet = false;
+          return;
+        }
+
+        if (event && event.cancelable) event.preventDefault();
+        currentDY = dy;
+        projectModal.classList.add("dragging");
+        projectModal.style.transform = `translateY(${dy}px)`;
+        const dim = Math.max(0.12, 0.56 * (1 - Math.min(dy / 420, 0.8)));
+        modalBackdrop.style.background = `rgba(28, 25, 22, ${dim})`;
+      }
+
+      function onEnd() {
+        touchActive = false;
+        if (!isPullingSheet) return;
+        isPullingSheet = false;
+        const elapsed = Math.max(1, Date.now() - startTime);
+        const velocityY = currentDY / elapsed; // px per ms
+
+        if (currentDY > 78 || (currentDY > 32 && velocityY > 0.45)) {
+          projectModal.classList.remove("dragging");
+          projectModal.style.transform = "translateY(100%)";
+          setTimeout(() => {
+            closeProjectModal();
+          }, 180);
+        } else if (currentDY > 0) {
+          resetModalTransform();
+        }
+        currentDY = 0;
+      }
+
+      // Touch listeners on the modal (works on iPhone / Android)
+      projectModal.addEventListener("touchstart", e => {
+        if (e.touches.length !== 1) return;
+        onStart(e.touches[0].clientY, e.touches[0].clientX, e.target);
+      }, { passive: true });
+
+      projectModal.addEventListener("touchmove", e => {
+        if (e.touches.length !== 1) return;
+        onMove(e.touches[0].clientY, e.touches[0].clientX, e);
+      }, { passive: false });
+
+      projectModal.addEventListener("touchend", onEnd, { passive: true });
+      projectModal.addEventListener("touchcancel", onEnd, { passive: true });
+
+      // Pointer drag on topbar for desktop / mouse users
+      let mouseDragging = false;
+      modalTopbar.addEventListener("pointerdown", e => {
+        if (e.pointerType === "touch") return;
+        if (e.target.closest("button")) return;
+        mouseDragging = true;
+        onStart(e.clientY, e.clientX, e.target);
+        modalTopbar.setPointerCapture(e.pointerId);
+      });
+
+      modalTopbar.addEventListener("pointermove", e => {
+        if (!mouseDragging || e.pointerType === "touch") return;
+        onMove(e.clientY, e.clientX, e);
+      });
+
+      modalTopbar.addEventListener("pointerup", e => {
+        if (!mouseDragging || e.pointerType === "touch") return;
+        mouseDragging = false;
+        onEnd();
+      });
+    }
+
+    setupModalPullDownToClose();
 
     document.querySelectorAll("[data-open-project]").forEach(el => {
       el.addEventListener("click", e => {
