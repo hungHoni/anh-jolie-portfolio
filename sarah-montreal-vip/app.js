@@ -477,6 +477,7 @@ export function initSarahVipApp(doc = globalThis.document, win = globalThis.wind
   // Bind Copy Link Button (Upgrade #4: Instagram Webview Survival)
   if (copyVaultLinkBtn) {
     copyVaultLinkBtn.addEventListener('click', async () => {
+      copyVaultLinkBtn.textContent = '✓ Link Copied!';
       const linkToCopy =
         (activeReceipt && activeReceipt.magicUrl) ||
         (win && win.location ? `${win.location.origin}${win.location.pathname}?vault=unlocked` : 'https://sarahmontreal.vip/?vault=unlocked');
@@ -487,7 +488,6 @@ export function initSarahVipApp(doc = globalThis.document, win = globalThis.wind
       } catch {
         // Fallback if clipboard API restricted
       }
-      copyVaultLinkBtn.textContent = '✓ Link Copied!';
     });
   }
 
