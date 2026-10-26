@@ -80,3 +80,70 @@ test('Task 1.2: Hybrid A + C CSS enforces 100dvh mobile fit, single-line eyebrow
   assert.match(css, /\.eyebrow-pass[\s\S]*?white-space:\s*nowrap/, 'Must enforce single-line nowrap on .eyebrow-pass');
   assert.match(css, /\.vault-filter-bar[\s\S]*?white-space:\s*nowrap/, 'Must enforce single-line nowrap on .vault-filter-bar');
 });
+
+test('Task 2.1: WHOP_CONFIG and VAULT_FOLDERS enforce $9.99 USD single tier and 85 Photos + 14 Videos = 99 total', async () => {
+  const { WHOP_CONFIG, VAULT_FOLDERS, STORY_SLIDES } = await import('../sarah-montreal-vip/app.js');
+
+  assert.equal(WHOP_CONFIG.priceUsd, 9.99);
+  assert.equal(WHOP_CONFIG.anchorPriceUsd, 49);
+  assert.equal(WHOP_CONFIG.merchantName, 'Sarah Montreal VIP');
+  assert.ok(WHOP_CONFIG.planId.startsWith('plan_'));
+
+  assert.equal(VAULT_FOLDERS.length, 3);
+  const totalPhotos = VAULT_FOLDERS.reduce((sum, f) => sum + f.photos, 0);
+  const totalVideos = VAULT_FOLDERS.reduce((sum, f) => sum + f.videos, 0);
+  assert.equal(totalPhotos, 85, 'Folders must sum to 85 photos');
+  assert.equal(totalVideos, 14, 'Folders must sum to 14 videos');
+  assert.equal(totalPhotos + totalVideos, 99, 'Total media items must be 99');
+
+  assert.equal(STORY_SLIDES.length, 4, 'Story preview lightbox must have 4 slides');
+});
+
+test('Task 2.2: validateEmail rejects empty or malformed emails and accepts valid emails', async () => {
+  const { validateEmail } = await import('../sarah-montreal-vip/app.js');
+
+  assert.equal(validateEmail(''), false);
+  assert.equal(validateEmail('   '), false);
+  assert.equal(validateEmail('notanemail'), false);
+  assert.equal(validateEmail('missing@domain'), false);
+  assert.equal(validateEmail('fan@gmail.com'), true);
+  assert.equal(validateEmail('  vip.buyer@icloud.com  '), true);
+});
+
+test('Task 2.3: filterVaultItems filters across all, bedroom, cheer, and studio and distinguishes video vs gallery items', async () => {
+  const { filterVaultItems, VAULT_ITEMS } = await import('../sarah-montreal-vip/app.js');
+
+  const allItems = filterVaultItems('all');
+  assert.equal(allItems.length, VAULT_ITEMS.length);
+  assert.ok(allItems.length >= 4);
+
+  const bedroomItems = filterVaultItems('bedroom');
+  assert.ok(bedroomItems.length >= 1);
+  assert.ok(bedroomItems.every((item) => item.folder === 'bedroom'));
+
+  const cheerItems = filterVaultItems('cheer');
+  assert.ok(cheerItems.length >= 1);
+  assert.ok(cheerItems.every((item) => item.folder === 'cheer'));
+
+  const studioItems = filterVaultItems('studio');
+  assert.ok(studioItems.length >= 1);
+  assert.ok(studioItems.every((item) => item.folder === 'studio'));
+
+  // Must have both video and gallery types (Upgrade #5)
+  assert.ok(VAULT_ITEMS.some((i) => i.type === 'video'));
+  assert.ok(VAULT_ITEMS.some((i) => i.type === 'gallery'));
+});
+
+test('Task 2.4: createVaultReceipt generates a persistent receipt object with magicUrl and Sarah Montreal VIP descriptor', async () => {
+  const { createVaultReceipt } = await import('../sarah-montreal-vip/app.js');
+
+  const receipt = createVaultReceipt('fan@gmail.com', 'apple_pay', 'https://sarahmontreal.vip/');
+  assert.equal(receipt.unlocked, true);
+  assert.equal(receipt.email, 'fan@gmail.com');
+  assert.equal(receipt.method, 'apple_pay');
+  assert.equal(receipt.amountUsd, 9.99);
+  assert.equal(receipt.statementDescriptor, 'Sarah Montreal VIP');
+  assert.ok(receipt.receiptId.startsWith('whop_'));
+  assert.ok(receipt.magicUrl.includes('vault=unlocked'));
+});
+
